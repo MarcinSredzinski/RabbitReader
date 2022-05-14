@@ -13,18 +13,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="JwtAuth.Library" Version="1.0.1" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
-    <PackageReference Include="RabbitMQ.Client" Version="6.2.3" />
+    <PackageReference Include="RabbitBase.Library" Version="1.0.1" />
+    <PackageReference Include="RabbitMQ.Client" Version="6.3.0" />
     <PackageReference Include="Serilog" Version="2.10.0" />
     <PackageReference Include="Serilog.Extensions.Logging" Version="3.1.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="4.0.1" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\Shared\Core.Library\Core.Library.csproj" />
-    <ProjectReference Include="..\..\Shared\JwtTokens.Library\JwtAuth.Library.csproj" />
-    <ProjectReference Include="..\..\Shared\RabbitBase.Library\RabbitBase.Library.csproj" />
   </ItemGroup>
 
   <ItemGroup>

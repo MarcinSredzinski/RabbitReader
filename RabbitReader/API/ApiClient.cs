@@ -1,7 +1,6 @@
-﻿using Core.Library.Api;
-using Core.Library.Models;
-using JwtAuth.Library.Services;
+﻿using JwtAuth.Library.Services;
 using Microsoft.Extensions.Configuration;
+using RabbitBase.Library.Contracts;
 using Serilog;
 using System.Net.Http.Json;
 
@@ -57,6 +56,6 @@ namespace RabbitReader.API
 
             _logger.Debug("{0} - Posted to remote server, received: {1}. ", nameof(PostSensorDataAsync), response.StatusCode);
             return response;
-        }
+        }       
     }
 }

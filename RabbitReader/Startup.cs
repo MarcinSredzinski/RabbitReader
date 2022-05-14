@@ -1,8 +1,8 @@
-﻿using Core.Library.Api;
-using JwtAuth.Library.Services;
+﻿using JwtAuth.Library.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using RabbitBase.Library.Contracts;
 using RabbitBase.Library.RabbitMQ;
 using RabbitReader.API;
 using Serilog;
@@ -17,8 +17,8 @@ namespace RabbitReader
             services
                 .AddScoped<ILogger>(x => Log.Logger)
                 .AddSingleton<HttpClient>()
-                .AddSingleton<IApiClient, ApiClient>()
-                .AddSingleton<IApiHandler, ApiHandler>()
+                .AddSingleton<IApiClient, ApiClient>() //ToDo two declarations of IApiClient may lead to some issues down the way. 
+                .AddSingleton<IMessageReceivedHandler, ApiHandler>()
                 .AddSingleton<IAuthorizationService, AuthorizationService>()
                 .AddSingleton<IQueueReaderDeclaration, QueueReaderDeclaration>();
         }
