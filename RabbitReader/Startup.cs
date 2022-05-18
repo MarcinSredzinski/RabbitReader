@@ -17,7 +17,7 @@ namespace RabbitReader
             services
                 .AddScoped<ILogger>(x => Log.Logger)
                 .AddSingleton<HttpClient>()
-                .AddSingleton<IApiClient, ApiClient>() //ToDo two declarations of IApiClient may lead to some issues down the way. 
+                .AddSingleton<IApiClient, ApiClient>() 
                 .AddSingleton<IMessageReceivedHandler, ApiHandler>()
                 .AddSingleton<IAuthorizationService, AuthorizationService>()
                 .AddSingleton<IQueueReaderDeclaration, QueueReaderDeclaration>();
