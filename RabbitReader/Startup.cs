@@ -31,13 +31,29 @@ namespace RabbitReader
         {
             string basePath = AppDomain.CurrentDomain.BaseDirectory;
             string logPath = Path.Combine(basePath, "logs", "my_logNew.log");
+             var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? string.Empty;
+
             Log.Logger = new LoggerConfiguration()
-                .WriteTo.File(logPath, rollingInterval: RollingInterval.Day)
-                .WriteTo.Console()
-                .MinimumLevel.Debug()                                               //ToDo make dependent on the current environment.
+            .WriteTo.File(logPath, rollingInterval: RollingInterval.Day)
+            .ConfigureForEnvironment(environment, logPath)
             .CreateLogger();
             loggingBuilder.AddSerilog(Log.Logger);
             return loggingBuilder;
         }
+
+            private static LoggerConfiguration ConfigureForEnvironment(this LoggerConfiguration loggerSinkConfiguration, string environment, string logPath)
+        => environment switch
+        {
+            "Development" => loggerSinkConfiguration.WriteTo.File(logPath, rollingInterval: RollingInterval.Day)
+                .WriteTo.Console()
+                .MinimumLevel.Debug(),
+            "Testing" => loggerSinkConfiguration.WriteTo.File(logPath, rollingInterval: RollingInterval.Day)
+                .WriteTo.Console()
+                .MinimumLevel.Information(),
+            "Production" => loggerSinkConfiguration.WriteTo.File(logPath, rollingInterval: RollingInterval.Day)
+                .MinimumLevel.Warning(),
+            _ => loggerSinkConfiguration.WriteTo.File(logPath, rollingInterval: RollingInterval.Day)
+                .MinimumLevel.Warning(),
+        };
     }
 }
