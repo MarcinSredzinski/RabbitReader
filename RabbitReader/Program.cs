@@ -10,7 +10,6 @@ var host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((_, services) => Startup.ConfigureServices(services))
     .Build();
 
-//ToDo to make it run remember to add the packages souce using dotnet command. (Example stored ina safe place)
 var apiHandler = host.Services.GetService<IMessageReceivedHandler>();
 var queue = host.Services.GetService<IQueueReaderDeclaration>();
 if (apiHandler == null || queue == null)
