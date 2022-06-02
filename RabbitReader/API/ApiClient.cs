@@ -43,9 +43,10 @@ namespace RabbitReader.API
             await AuthorizeHttpClient(); 
 
             HttpResponseMessage response = await _httpClient.PostAsync(_requestUri, httpContent);
-
+            //ToDo inspect logic to avoid endless loops. 
             if (TimesRetried == RetriesLimit)
                 throw new Exception("Client got stuck in endless loop. Credentials invalid or server malfunctioning");
+
             if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
             {
                 //todo goes in here wihout trying again. so goes here twice in a row

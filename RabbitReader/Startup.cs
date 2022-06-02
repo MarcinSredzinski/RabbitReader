@@ -12,12 +12,12 @@ namespace RabbitReader
 {
     internal static class Startup
     {
-        internal static void ConfigureServices(IServiceCollection services)
+       internal static void ConfigureServices(IServiceCollection services)
         {
             services
                 .AddScoped<ILogger>(x => Log.Logger)
                 .AddSingleton<HttpClient>()
-                .AddSingleton<IApiClient, ApiClient>() 
+                .AddSingleton<IApiClient, ApiClient>()
                 .AddSingleton<IMessageReceivedHandler, ApiHandler>()
                 .AddSingleton<IAuthorizationService, AuthorizationService>()
                 .AddSingleton<IQueueReaderDeclaration, QueueReaderDeclaration>();
@@ -31,7 +31,7 @@ namespace RabbitReader
         {
             string basePath = AppDomain.CurrentDomain.BaseDirectory;
             string logPath = Path.Combine(basePath, "logs", "my_logNew.log");
-             var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? string.Empty;
+            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? string.Empty;
 
             Log.Logger = new LoggerConfiguration()
             .WriteTo.File(logPath, rollingInterval: RollingInterval.Day)
@@ -41,7 +41,7 @@ namespace RabbitReader
             return loggingBuilder;
         }
 
-            private static LoggerConfiguration ConfigureForEnvironment(this LoggerConfiguration loggerSinkConfiguration, string environment, string logPath)
+        private static LoggerConfiguration ConfigureForEnvironment(this LoggerConfiguration loggerSinkConfiguration, string environment, string logPath)
         => environment switch
         {
             "Development" => loggerSinkConfiguration.WriteTo.File(logPath, rollingInterval: RollingInterval.Day)
