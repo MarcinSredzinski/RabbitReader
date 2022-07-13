@@ -4,6 +4,7 @@ using RabbitReader;
 using RabbitBase.Library.RabbitMQ;
 using RabbitBase.Library.Contracts;
 
+Console.WriteLine("Rabbit Reader starting.");
 var host = Host.CreateDefaultBuilder(args)
     .ConfigureAppConfiguration(Startup.BuildConfiguration)
     .ConfigureLogging(x => x.ConfigureLogger())

@@ -53,7 +53,8 @@ namespace RabbitReader
             "Production" => loggerSinkConfiguration.WriteTo.File(logPath, rollingInterval: RollingInterval.Day)
                 .MinimumLevel.Warning(),
             _ => loggerSinkConfiguration.WriteTo.File(logPath, rollingInterval: RollingInterval.Day)
-                .MinimumLevel.Warning(),
+                .WriteTo.Console()
+                .MinimumLevel.Debug(),
         };
     }
 }
