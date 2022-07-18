@@ -2,6 +2,8 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Polly;
+using Polly.Extensions.Http;
 using RabbitBase.Library.Contracts;
 using RabbitBase.Library.RabbitMQ;
 using RabbitReader.API;
@@ -12,16 +14,18 @@ namespace RabbitReader
 {
     internal static class Startup
     {
-       internal static void ConfigureServices(IServiceCollection services)
+        internal static void ConfigureServices(IServiceCollection services)
         {
             services
+                .AddHttpClient()
                 .AddScoped<ILogger>(x => Log.Logger)
-                .AddSingleton<HttpClient>()
-                .AddSingleton<IApiClient, ApiClient>()
+                .AddScoped<IApiClient, AuthorizedApiClient>()
+                //.AddSingleton<IApiClient, ApiClient>()
                 .AddSingleton<IMessageReceivedHandler, ApiHandler>()
                 .AddSingleton<IAuthorizationService, AuthorizationService>()
                 .AddSingleton<IQueueReaderDeclaration, QueueReaderDeclaration>();
         }
+
         internal static void BuildConfiguration(IConfigurationBuilder configurationBuilder)
         {
             configurationBuilder
@@ -52,7 +56,8 @@ namespace RabbitReader
                 .MinimumLevel.Information(),
             "Production" => loggerSinkConfiguration.WriteTo.File(logPath, rollingInterval: RollingInterval.Day)
                 .MinimumLevel.Warning(),
-            _ => loggerSinkConfiguration.WriteTo.File(logPath, rollingInterval: RollingInterval.Day)
+            _ => loggerSinkConfiguration
+                .WriteTo.File(logPath, rollingInterval: RollingInterval.Day)
                 .WriteTo.Console()
                 .MinimumLevel.Debug(),
         };
